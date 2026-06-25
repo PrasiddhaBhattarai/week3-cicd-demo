@@ -1,0 +1,63 @@
+name: Python CI pipeline
+
+on:
+    push:
+
+    pull_request:
+        branches: [main]
+
+    workflow_dispatch:
+
+jobs:
+    build-and-dest:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-versions: [3.10, 3.11, 3.12]
+
+        steps:
+        - name: Checkout Repository
+          uses: actions/checkout@v4
+
+        - name: Setup Python
+          uses: actions/setup-python@v4
+          with:
+            python-version: ${{ matrix.python-versions }}
+
+        - name: cache pip packages
+          uses: actions/cache@v4
+          with:
+            path: ~/.cache/pip
+            key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+            restore-keys: |
+                ${{ runner.os }}-pip-
+
+        - name: Install Dependencies
+          run: |
+            python -m pip install --upgrade pip
+            pip install -r requirements.txt
+
+        - name: Display Environment
+          if: ${{ secrets.APP_ENV == 'staging' }}
+          run: echo "App Environment: ${{ secrets.APP_ENV }}"
+        
+        - name: Make Scripts Executable
+          run: |
+            chmod +x app.sh
+            chmod +x test.sh
+        
+        - name: Run Application
+          run: ./app.sh
+        
+        - name: Run Tests
+          run: ./test.sh
+
+        - name: Upload Artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: app-output
+            path: |
+                app.sh
+                test.sh
+                app.py
+                README.md
