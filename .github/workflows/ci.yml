@@ -49,10 +49,10 @@ jobs:
             chmod +x app.sh
             chmod +x test.sh
         
-        - name: Run Application
+        - name: Run app.sh
           run: ./app.sh
         
-        - name: Run Tests
+        - name: Run test.sh
           run: ./test.sh
 
         - name: Upload Artifact
