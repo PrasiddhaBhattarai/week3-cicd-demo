@@ -84,7 +84,7 @@ jobs:
 
         steps:
         - name: Deploy step
-        - run: |
+          run: |
             echo "Deploying Application"
             echo "Git SHA: ${{ github.sha }}"
             echo "Actor: ${{ github.actor }}"
