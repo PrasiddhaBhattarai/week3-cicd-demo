@@ -9,7 +9,7 @@ on:
     workflow_dispatch:
 
 jobs:
-    build-and-dest:
+    build-and-test:
         runs-on: ubuntu-latest
         strategy:
             matrix:
@@ -42,7 +42,7 @@ jobs:
 
         - name: Display Environment
           if: ${{ env.APP_ENV == 'staging' }}
-          run: 'echo "App Environment: $APP_ENV"'
+          run: 'echo "App Environment: staging"'
         
         - name: Make Scripts Executable
           run: |
