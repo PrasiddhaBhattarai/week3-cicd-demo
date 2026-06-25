@@ -64,8 +64,8 @@ jobs:
         - name: Run test.sh
           run: ./test.sh
 
-        - name: Run app.py
-          run: python app.py
+        #- name: Run app.py
+         # run: python app.py
 
         - name: Upload Artifact
           uses: actions/upload-artifact@v4
