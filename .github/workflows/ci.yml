@@ -15,6 +15,9 @@ jobs:
             matrix:
                 python-versions: [3.10, 3.11, 3.12]
 
+        env:
+            APP_ENV: ${{ secrets.APP_ENV }}
+
         steps:
         - name: Checkout Repository
           uses: actions/checkout@v4
@@ -38,8 +41,8 @@ jobs:
             pip install -r requirements.txt
 
         - name: Display Environment
-          if: ${{ secrets.APP_ENV == 'staging' }}
-          run: echo "App Environment: ${{ secrets.APP_ENV }}"
+          if: ${{ env.APP_ENV == 'staging' }}
+          run: echo "App Environment: $APP_ENV"
         
         - name: Make Scripts Executable
           run: |
