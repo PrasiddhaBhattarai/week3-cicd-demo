@@ -16,7 +16,7 @@ on:
                     - production
 
 jobs:
-    build-and-test:
+    test:
         runs-on: ubuntu-latest
         strategy:
             matrix:
