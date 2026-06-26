@@ -91,3 +91,25 @@ jobs:
             echo "Actor: ${{ github.actor }}"
             echo "Environment: ${{ inputs.environment }}"
             echo "Timestamp: $(date)"
+            
+        - name: Notify Slack - Success
+          if: success()
+          uses: slackapi/slack-github-action@v2
+          with:
+            payload: |
+              {
+                "text": "✅ Workflow succeeded: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
+              }
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+        - name: Notify Slack - Failure
+          if: failure()
+          uses: slackapi/slack-github-action@v2
+          with:
+            payload: |
+              {
+                "text": "❌ Workflow failed: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
+              }
+          env:
+            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
