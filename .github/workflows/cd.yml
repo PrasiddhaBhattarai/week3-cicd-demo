@@ -96,20 +96,16 @@ jobs:
           if: success()
           uses: slackapi/slack-github-action@v2
           with:
+            webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+            webhook-type: incoming-webhook
             payload: |
-              {
-                "text": "✅ Workflow succeeded: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
-              }
-          env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+                text: "✅ Workflow succeeded: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
 
         - name: Notify Slack - Failure
           if: failure()
           uses: slackapi/slack-github-action@v2
           with:
+            webhook: ${{ secrets.SLACK_WEBHOOK_URL }}
+            webhook-type: incoming-webhook
             payload: |
-              {
-                "text": "❌ Workflow failed: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
-              }
-          env:
-            SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+                text: "❌ Workflow failed: ${{ github.workflow }}\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref_name }}"
